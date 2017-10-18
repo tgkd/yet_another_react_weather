@@ -1,5 +1,10 @@
 /* eslint-disable */
 import React from 'react'
+
+/* imoprt components */
+import WeatherCard from 'components/WeatherCard'
+import Loader from 'components/Loader'
+
 import './index.styl'
 import WeatherApi from 'libs/weatherApi'
 import PlacesApi from 'libs/placesApi'
@@ -11,32 +16,33 @@ export default class extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            weatherInfo: {},
-            locationInfo: {},
+            weatherInfo: null,
+            locationPhoto: null,
             loading: false,
             error: null,
         }
     }
 
-    getCityWeather = async (city) => {
-        const weather = await weatherApi.getWeatherByCityName(city)
-        if (weather && weather.status === 200) {
+    getCityWeather = async city => {
+        try {
+            const weather = await weatherApi.getWeatherByCityName(city)
             this.setState({ weatherInfo: { ...weather.data } })
-        } else {
-            this.setState({ error: weather.message })
+        } catch (err) {
+            this.setState({ error: err.message })
         }
     }
 
-    getCityPhoto = async (city) => {
-        const cityPlace = await placesApi.getCityPhoto(city)
-        if (cityPlace && cityPlace.cod === 200) {
-            this.setState({ weatherInfo: { ...cityPlace } })
-        } else {
-            this.setState({ error: cityPlace.message })
+    getCityPhoto = async city => {
+        try {
+            const cityPlace = await placesApi.getCityPhoto(city)
+            const locationPhoto = URL.createObjectURL(cityPlace.data)
+            this.setState({ locationPhoto })
+        } catch (err) {
+            this.setState({ error: err.message })
         }
     }
 
-    cityInputHandler = (e) => {
+    cityInputHandler = e => {
         const key = e.which || e.keyCode
         if (key === 13) {
             this.setState({
@@ -48,9 +54,17 @@ export default class extends React.Component {
     }
 
     render() {
+        console.log(Loader)
+        const { weatherInfo, locationPhoto, loading } = this.state
+        const weatherCard =
+            locationPhoto && weatherInfo ? (
+                <WeatherCard image={locationPhoto} weatherData={weatherInfo} />
+            ) : null
+        const content = loading ? <Loader /> : weatherCard
+
         return (
             <div className="app">
-                <input type="text" onKeyPress={this.cityInputHandler}/>
+                <input type="text" onKeyPress={this.cityInputHandler} />
             </div>
         )
     }
