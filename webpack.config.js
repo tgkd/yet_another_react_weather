@@ -7,7 +7,7 @@ module.exports = {
     entry: './src/bootstrap.jsx',
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: 'js/bundle.js',
         publicPath: '/',
     },
     plugins: [

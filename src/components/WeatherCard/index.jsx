@@ -8,7 +8,6 @@ import config from 'libs/config'
 import './index.styl'
 
 function getCardDataBlock(weatherData) {
-    console.log(weatherData)
     return (
         <section className="weather-card__data">
             {weatherData && (

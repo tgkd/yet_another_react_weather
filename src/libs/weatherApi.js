@@ -6,7 +6,7 @@ export default class WeatherApi {
     constructor() {
         this.weatherPath = '/data/2.5/weather'
         this.api = axios.create({
-            baseURL: 'http://api.openweathermap.org',
+            baseURL: keys.PROXY_URL,
             timeout: 10000,
             withCredentials: false,
             headers: {
@@ -19,7 +19,7 @@ export default class WeatherApi {
     async getWeatherByCityName(city) {
         return await this.api.request({
             method: 'get',
-            url: this.weatherPath,
+            url: '/http://api.openweathermap.org/data/2.5/weather',
             params: {
                 q: city,
                 units: 'metric',

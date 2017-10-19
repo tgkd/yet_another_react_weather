@@ -21,6 +21,7 @@ export default class WeatherApi {
         if (placeInfo.status !== 200) {
             return new Error('google place not found')
         }
+        console.log(placeInfo.data.results)
         const photos = placeInfo.data.results[0].photos
         if (!photos.length) {
             return new Error('photos not found')
