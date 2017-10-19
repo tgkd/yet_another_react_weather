@@ -1,37 +1,55 @@
-/* eslint-disable react/jsx-indent */
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Loader from '../Loader/index.jsx'
+import config from 'libs/config'
+
 import './index.styl'
 
-function getCardBackground(url) {
-    return {
-        'background-image': `${url} no-repeat`,
-    }
+function getCardDataBlock(weatherData) {
+    console.log(weatherData)
+    return (
+        <section className="weather-card__data">
+            {weatherData && (
+                <div className="data">
+                    <div className="data__temp">
+                        <span className="value">{parseInt(weatherData.main.temp, 10)}&deg;</span>
+                        <span>{weatherData.weather[0].main}</span>
+                    </div>
+                    <div className="hr" />
+                    <div className="data__city">
+                        <span className="value">
+                            {weatherData.name}, {weatherData.sys.country}
+                        </span>
+                    </div>
+                </div>
+            )}
+        </section>
+    )
 }
 
-const WeatherCard = (image, weatherData) => {
-    console.log(image)
+const WeatherCard = ({ loading, image, weatherData }) => {
+    const dataIsReady = image && weatherData
+    const cardDataBlock = getCardDataBlock(weatherData)
+    const bkgImage = {
+        backgroundImage: `url('${image || config.DEFAULT_IMG_URL}')`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    }
     return (
-        <div className="weather-card" style={getCardBackground(image)}>
-            <h2 className="weather-card__name">{weatherData.name}</h2>
-            <div className="weather-card__params">
-                <span className="weather-card__params-temp">
-                    {weatherData.main.temp}
-                </span>
-                <span className="weather-card__params-humidity">
-                    {weatherData.main.humidity}
-                </span>
-                <span className="weather-card__params-pressure">
-                    {weatherData.main.pressure}
-                </span>
+        <div className="weather-card">
+            <div className="weather-card__photo" style={bkgImage}>
+                {loading && <Loader />}
             </div>
+            {cardDataBlock}
         </div>
     )
 }
 
 WeatherCard.propTypes = {
-    image: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
+    image: PropTypes.string,
     weatherData: PropTypes.shape({
         name: PropTypes.string.isRequired,
         main: PropTypes.shape({
@@ -39,7 +57,12 @@ WeatherCard.propTypes = {
             humidity: PropTypes.number.isRequired,
             pressure: PropTypes.number.isRequired,
         }).isRequired,
-    }).isRequired,
+    }),
+}
+
+WeatherCard.defaultProps = {
+    image: null,
+    weatherData: null,
 }
 
 export default WeatherCard

@@ -22,7 +22,7 @@ export default class WeatherApi {
             url: this.weatherPath,
             params: {
                 q: city,
-                units: 'methric',
+                units: 'metric',
                 APPID: keys.WEATHER_API_KEY,
             }
         })

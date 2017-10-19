@@ -1,13 +1,15 @@
-.loader
-    height 30px
-    width 30px
-    z-index 1
-    margin-right 5px
-    border 2px solid #ccc
-    border-radius 50%
-    border-top 2px solid #ff681f
-    -webkit-animation spin 1s linear infinite
-    animation spin 1s linear infinite
+.overlay 
+    position absolute
+    display flex
+    justify-content center
+    align-items center
+    height 100%
+    width 100%
+    background #343E3D
+    opacity 0.5
+
+    .loader
+        animation spin 3s linear infinite
 
 @-webkit-keyframes spin {
     0% {

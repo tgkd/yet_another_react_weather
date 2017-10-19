@@ -1,5 +1,54 @@
+$onix = #343E3D
+
 .weather-card
-    width 400px
-    height auto
-    padding 20px
-    
+    position relative
+    display flex
+    box-shadow 0 0 35px rgba(52, 62, 61, 0.4)
+    width 600px
+    height 300px
+    margin-bottom 35px
+
+    &__photo
+        position relative
+        display flex
+        justify-content center
+        align-items center
+        height 300px
+        width 300px
+
+    &__data
+        display flex
+        justify-content center
+        align-items center
+        height 300px
+        width 300px
+        font-family Arial, Helvetica, sans-serif
+
+    .data
+        display flex
+        flex-direction column
+        align-items center
+
+        &__temp,
+        &__city
+            color $onix
+            display flex
+            flex-direction column
+            align-items center
+
+            .value
+                display inline-block
+                margin-left 25px
+                font-size 60px
+
+        &__city .value
+            margin 0
+            font-size 32px
+
+        .hr
+            display inline-block
+            height 2px
+            width 90%
+            margin 15px 0
+            background-color $onix
+            border-radius 2px

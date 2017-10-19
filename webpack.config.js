@@ -18,11 +18,11 @@ module.exports = {
         }),
     ],
     resolve: {
-        modules: ['src', 'node_modules'],
-        extensions: ['.js', '.styl', '.css', '.jsx'],
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+        extensions: ['.js', '.styl', '.jsx'],
+        enforceExtension: false,
         alias: {
             libs: path.resolve(__dirname, './src/libs/'),
-            components: path.resolve(__dirname, './src/components/'),
         },
     },
     module: {
