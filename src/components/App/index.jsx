@@ -27,7 +27,11 @@ export default class extends React.Component {
             const weather = await weatherApi.getWeatherByCityName(city)
             this.setState({ weatherInfo: { ...weather.data } })
         } catch (err) {
-            this.setState({ error: err.message })
+            if (err.status === 404) {
+                this.setState({ error: 'Sry, Location not found', loading: false })
+            } else {
+                this.setState({ error: 'Something wrong', loading: false })
+            }
         }
     }
 
@@ -37,7 +41,11 @@ export default class extends React.Component {
             const locationPhoto = URL.createObjectURL(cityPlace.data)
             this.setState({ locationPhoto, loading: false })
         } catch (err) {
-            this.setState({ error: err.message })
+            if (err.status === 404) {
+                this.setState({ error: 'Sry, Location not found', loading: false })
+            } else {
+                this.setState({ error: 'Something wrong', loading: false })
+            }
         }
     }
 
@@ -46,17 +54,19 @@ export default class extends React.Component {
         if (key === 13) {
             this.setState({
                 loading: true,
+                error: null,
             })
             this.getCityPhoto(e.target.value)
             this.getCityWeather(e.target.value)
+            e.target.value = ''
         }
     }
 
     render() {
-        const { weatherInfo, locationPhoto, loading } = this.state
+        const { weatherInfo, locationPhoto, loading, error } = this.state
         return (
             <div className="app">
-                <WeatherCard loading={loading} image={locationPhoto} weatherData={weatherInfo} />
+                <WeatherCard loading={loading} error={error} image={locationPhoto} weatherData={weatherInfo} />
                 <input
                     className="city-input"
                     type="text"

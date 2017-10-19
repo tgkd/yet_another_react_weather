@@ -28,11 +28,19 @@ function getCardDataBlock(weatherData) {
     )
 }
 
-const WeatherCard = ({ loading, image, weatherData }) => {
+function getErrorMessage(message) {
+    return (
+        <div className="overlay">
+            <div className="error">{message}. Try Again.</div>
+        </div>
+    )
+}
+
+const WeatherCard = ({ loading, error, image, weatherData }) => {
     const dataIsReady = image && weatherData
     const cardDataBlock = getCardDataBlock(weatherData)
     const bkgImage = {
-        backgroundImage: `url('${image || config.DEFAULT_IMG_URL}')`,
+        backgroundImage: `url('${image && !error ? image : config.DEFAULT_IMG_URL}')`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     }
@@ -41,7 +49,7 @@ const WeatherCard = ({ loading, image, weatherData }) => {
             <div className="weather-card__photo" style={bkgImage}>
                 {loading && <Loader />}
             </div>
-            {cardDataBlock}
+            {error ? getErrorMessage(error) : cardDataBlock}
         </div>
     )
 }
